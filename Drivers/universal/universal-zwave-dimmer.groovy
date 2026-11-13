@@ -742,7 +742,7 @@ void sendSwitchEvents(rawVal, String type, Integer ep=0) {
 	sendEventLog(name:"switch", value:value, type:type, desc:desc, ep)
 	turningOn[device.id] = 0
 
-	if (rawVal || levelOff) {
+	if ((rawVal > 0 && rawVal <= 99) || (rawVal == 0 && levelOff)) {
 		Integer level = (rawVal == 99 ? 100 : rawVal)
 		if (level) level = convertLevel(level, false)
 
