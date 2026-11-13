@@ -1481,8 +1481,15 @@ Integer getPendingChanges() {
 		Integer paramVal = getParamValueAdj(param)
 		((paramVal != null) && (paramVal != getParamStoredValue(param.num)))
 	}
-	Integer pendingAssocs = Math.ceil(getConfigureAssocsCmds()?.size()/2) ?: 0
-	return (!state.resyncAll ? (configChanges + pendingAssocs) : configChanges)
+	if (state.resyncAll) return configChanges
+
+	Integer pendingAssocs = state.group1Assoc ? 0 : 1
+	for (int i = 2; i <= maxAssocGroups; i++) {
+		List settingNodeIds = getAssocDNIsSettingNodeIds(i)
+		List oldNodeIds = state.assocNodes?."$i" ?: []
+		if (settingNodeIds.toSet() != oldNodeIds.toSet()) pendingAssocs++
+	}
+	return configChanges + pendingAssocs
 }
 
 //iOS app has no way of clearing string input so workaround is to have users enter 0.
