@@ -1,0 +1,9 @@
+Universal Z-Wave Dimmer
+Copyright 2024 Jeff Page (@jtp10181)
+Licensed under the Apache License, Version 2.0; see LICENSE.
+
+The initial import preserves the upstream 0.4.0 driver byte-for-byte:
+https://github.com/jtp10181/Hubitat/blob/47fde751762e8e3f6e311e4e3eda6ec5276cdb13/Drivers/universal/universal-zwave-dimmer.groovy
+
+The upstream commit was published on July 17, 2024 (UTC).
+Local imports and modifications use their actual commit dates.
