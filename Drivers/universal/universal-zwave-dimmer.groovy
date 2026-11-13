@@ -1,5 +1,6 @@
 /*  
  *  Universal Z-Wave Dimmer
+ *  Modified by vb3: local reliability and privacy fixes; see Git history.
  *
  *  For Support, Information, and Updates:
  *  https://community.hubitat.com/t/universal-z-wave-drivers/140325
@@ -517,7 +518,7 @@ void zwaveEvent(hubitat.zwave.commands.switchbinaryv2.SwitchBinaryReport cmd, ep
 
 void zwaveEvent(hubitat.zwave.commands.switchmultilevelv4.SwitchMultilevelReport cmd, ep=0) {
 	logTrace "${cmd} (ep ${ep})"
-	if (cmd.duration == 0) {
+	if (cmd.duration == null || cmd.duration == 0) {
 		sendSwitchEvents(cmd.value, digitalCheck(), ep)
 	}
 }
