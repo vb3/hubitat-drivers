@@ -512,7 +512,7 @@ void zwaveEvent(hubitat.zwave.commands.basicv1.BasicReport cmd, ep=0) {
 
 void zwaveEvent(hubitat.zwave.commands.switchbinaryv2.SwitchBinaryReport cmd, ep=0) {
 	logTrace "${cmd} (ep ${ep})"
-	if (cmd.duration == 0) {
+	if (cmd.duration == null || cmd.duration == 0) {
 		sendSwitchEvents(cmd.value, digitalCheck(), ep)
 	}
 }
