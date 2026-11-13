@@ -337,7 +337,6 @@ void syncFromDevice() {
 	}
 
 	configParams.each { param ->
-		device.removeSetting("configParam${param.num}")
 		logDebug "Getting ${param.title} (#${param.num}) from device"
 		cmds += configGetCmd(param)
 	}
