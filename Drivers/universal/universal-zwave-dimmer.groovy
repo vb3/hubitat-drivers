@@ -260,13 +260,15 @@ def on() {
 
 def off() {
 	logDebug "off..."
+	turningOn[device.id] = 0
 	return getOnOffCmds(0x00)
 }
 
 def setLevel(Number level, Number duration=null) {
 	logDebug "setLevel($level, $duration)..."
-	turningOn[device.id] = now() + 1000
-	return getSetLevelCmds(level, duration)
+	String cmd = getSetLevelCmds(level, duration)
+	turningOn[device.id] = safeToInt(level, 99) == 0 ? 0 : now() + 1000
+	return cmd
 }
 
 def startLevelChange(direction, duration=null) {
