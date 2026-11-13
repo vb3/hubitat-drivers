@@ -1473,31 +1473,7 @@ void refreshSyncStatus() {
 void updateLastCheckIn() {
 	Date nowDate = new Date()
 	state.lastCheckInDate = convertToLocalTimeString(nowDate)
-
-	Long lastExecuted = state.lastCheckInTime ?: 0
-	Long allowedMil = 24 * 60 * 60 * 1000   //24 Hours
-	if (lastExecuted + allowedMil <= nowDate.time) {
-		state.lastCheckInTime = nowDate.time
-		if (lastExecuted) runIn(2, doCheckIn)
-		scheduleCheckIn()
-	}
-}
-
-void scheduleCheckIn() {
-	unschedule("doCheckIn")
-	runIn(86340, doCheckIn)
-}
-
-void doCheckIn() {
-	scheduleCheckIn()
-	String pkg = PACKAGE ?: DRIVER
-	String devModel = (state.deviceModel ?: (PACKAGE ? DRIVER : "NA")) + (state.subModel ? ".${state.subModel}" : "")
-	String checkUri = "http://jtp10181.gateway.scarf.sh/${pkg}/chk-${devModel}-v${VERSION}"
-
-	try {
-		httpGet(uri:checkUri, timeout:4) { logDebug "Driver ${pkg} ${devModel} v${VERSION}" }
-		state.lastCheckInTime = now()
-	} catch (Exception e) { }
+	state.lastCheckInTime = nowDate.time
 }
 
 Integer getPendingChanges() {
