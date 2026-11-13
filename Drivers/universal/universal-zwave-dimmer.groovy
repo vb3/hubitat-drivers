@@ -1672,7 +1672,8 @@ void checkLogLevel(Map levelInfo = [level:null, time:null]) {
 		levelInfo.time = 30
 	}
 	//Schedule turn off and log as needed
-	if (levelInfo.level == null) levelInfo = getLogLevelInfo()
+	if (levelInfo.level == null) levelInfo.level = logLevelInfo.level
+	if (levelInfo.time == null) levelInfo.time = logLevelInfo.time
 	String logMsg = "Logging Level is: ${LOG_LEVELS[levelInfo.level]} (${levelInfo.level})"
 	if (levelInfo.level >= 3 && levelInfo.time > 0) {
 		logMsg += " for ${LOG_TIMES[levelInfo.time]}"
