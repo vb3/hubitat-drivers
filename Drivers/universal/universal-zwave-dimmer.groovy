@@ -134,6 +134,11 @@ metadata {
 			description: fmtDesc("Disabled and level will stay at the prior value when turned off, Enable to have the level set to 0 when turned off."),
 			defaultValue: false
 
+		input "instantOff", "bool",
+			title: fmtTitle("Instant Off"),
+			description: fmtDesc("Turn off without fading. Can preserve the last brightness on Leviton ZW6HD dimmers."),
+			defaultValue: false
+
 		input "scanType", "enum", defaultValue: 3,
 			title: fmtTitle("Parameter Scan Type"),
 			description: fmtDesc("Try basic scans if the full scan won't complete"),
@@ -261,7 +266,7 @@ def on() {
 def off() {
 	logDebug "off..."
 	turningOn[device.id] = 0
-	return getOnOffCmds(0x00)
+	return getSetLevelCmds(0x00, settings.instantOff ? 0 : null)
 }
 
 def setLevel(Number level, Number duration=null) {

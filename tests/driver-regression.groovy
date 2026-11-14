@@ -155,6 +155,21 @@ test("off clears a preceding nonzero level guard") {
     assert f.driver.on() != null
 }
 
+test("instant off is opt-in and leaves on transitions unchanged") {
+    [null, false, true].each { enabled ->
+        def f = fixture()
+        if (enabled != null) f.settings.instantOff = enabled
+        f.driver.off()
+        def off = f.zwave.built.findAll { it.name == "switchMultilevelSet" }.last()
+        assert off.values.value == 0
+        assert off.values.dimmingDuration == (enabled ? 0 : 255)
+        f.driver.on()
+        def on = f.zwave.built.findAll { it.name == "switchMultilevelSet" }.last()
+        assert on.values.value == 255
+        assert on.values.dimmingDuration == 255
+    }
+}
+
 test("activity remains local and schedules no external check-in") {
     def f = fixture()
     f.state.lastCheckInTime = 1L
